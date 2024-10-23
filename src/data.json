@@ -1,0 +1,297 @@
+[
+	{
+		"category": "General Questions",
+		"items": [
+			{ "question": "Crushed on someone online?", "checked": false },
+			{ "question": "Flirted online?", "checked": false },
+			{ "question": "Desired an online partner?", "checked": false },
+			{
+				"question": "Had criticized online daters out of jealousy?",
+				"checked": false
+			},
+			{
+				"question": "Had joined e-dating Discord servers unironically?",
+				"checked": false
+			},
+			{
+				"question": "Had actively sought out being praised or degraded online?",
+				"checked": false
+			}
+		]
+	},
+	{
+		"category": "Gaming",
+		"items": [
+			{
+				"question": "Played Valorant, Roblox, League of Legends or Overwatch with an online love interest?",
+				"checked": false
+			},
+			{ "question": "Played co-op games?", "checked": false },
+			{ "question": "Played iMessage games?", "checked": false },
+			{ "question": "Played drinking games?", "checked": false },
+			{
+				"question": "Placed your Minecraft bed next to theirs?",
+				"checked": false
+			},
+			{
+				"question": "Streamed or watched their game in a private call?",
+				"checked": false
+			},
+			{ "question": "Had taken a picture together in-game?", "checked": false },
+			{
+				"question": "Had flirted by making sexual gestures in-game?",
+				"checked": false
+			},
+			{
+				"question": "Had motivated them to perform well in-game for a reward?",
+				"checked": false
+			},
+			{ "question": "Had carried or been carried in-game?", "checked": false },
+			{
+				"question": "Been attracted to them solely for their in-game skills?",
+				"checked": false
+			}
+		]
+	},
+	{
+		"category": "Communication",
+		"items": [
+			{
+				"question": "Modified your voice pitch to impress them?",
+				"checked": false
+			},
+			{ "question": "Made barking or meowing sounds?", "checked": false },
+			{
+				"question": "Communicated with them on multiple platforms simultaneously?",
+				"checked": false
+			},
+			{
+				"question": "Used text-based emoji ':3' religiously?",
+				"checked": false
+			},
+			{ "question": "Called for over 24 hours?", "checked": false },
+			{ "question": "Called while sleeping?", "checked": false },
+			{ "question": "Called with video?", "checked": false },
+			{
+				"question": "Called with video doing daily activities?",
+				"checked": false
+			},
+			{ "question": "Called them mommy or daddy?", "checked": false }
+		]
+	},
+	{
+		"category": "Online Activities",
+		"items": [
+			{ "question": "Used matching in-game names?", "checked": false },
+			{ "question": "Used matching profile pictures?", "checked": false },
+			{
+				"question": "Used their picture as a banner or profile picture?",
+				"checked": false
+			},
+			{
+				"question": "Used their name or initials on your profile?",
+				"checked": false
+			},
+			{
+				"question": "Sent a picture from the internet with the caption 'us'?",
+				"checked": false
+			},
+			{ "question": "Sent a 'fansign'?", "checked": false },
+			{
+				"question": "Bought them food through food delivery services?",
+				"checked": false
+			},
+			{ "question": "Bought them gifts?", "checked": false },
+			{ "question": "Had stayed up all night together?", "checked": false },
+			{
+				"question": "Had read or been told a bedtime story?",
+				"checked": false
+			},
+			{
+				"question": "Had streamed or watched movies/shows in a private call?",
+				"checked": false
+			},
+			{
+				"question": "Had vibed to the same music together simultaneously?",
+				"checked": false
+			},
+			{ "question": "Shared a playlist together?", "checked": false },
+			{
+				"question": "Shared a discord server with just them?",
+				"checked": false
+			},
+			{ "question": "Shared your personal information?", "checked": false },
+			{ "question": "Shared your darkest secrets?", "checked": false },
+			{ "question": "Lied about your age?", "checked": false },
+			{
+				"question": "Lied about a significant matter that is still being kept hidden?",
+				"checked": false
+			},
+			{ "question": "Been catfished?", "checked": false }
+		]
+	},
+	{
+		"category": "Obsession",
+		"items": [
+			{ "question": "Dreamt about them?", "checked": false },
+			{ "question": "Stalked their match history?", "checked": false },
+			{ "question": "Stalked their social media?", "checked": false },
+			{
+				"question": "Stalked their online activity every day?",
+				"checked": false
+			},
+			{ "question": "Shared account credentials?", "checked": false },
+			{
+				"question": "Used location sharing apps to track each other?",
+				"checked": false
+			},
+			{
+				"question": "Felt jealous over their interactions with someone else?",
+				"checked": false
+			},
+			{ "question": "Felt your mood depended on them?", "checked": false },
+			{ "question": "Cut their name into your body?", "checked": false },
+			{ "question": "Worn their blood in a necklace?", "checked": false }
+		]
+	},
+	{
+		"category": "Intimacy",
+		"items": [
+			{ "question": "Sent sexually suggestive messages?", "checked": false },
+			{ "question": "Exchanged selfies?", "checked": false },
+			{ "question": "Sent a 'thirst-trap'?", "checked": false },
+			{ "question": "Sent a sexually explicit picture?", "checked": false },
+			{
+				"question": "Sent a sexually explicit picture with face?",
+				"checked": false
+			},
+			{
+				"question": "Sent a sexually explicit picture unsolicited?",
+				"checked": false
+			},
+			{ "question": "Been blue-balled?", "checked": false },
+			{ "question": "Received or sent a cum tribute?", "checked": false },
+			{ "question": "Discussed kinks?", "checked": false },
+			{
+				"question": "Watched pornographic material together?",
+				"checked": false
+			},
+			{ "question": "Had esex?", "checked": false },
+			{
+				"question": "Had esex with 5 or more different people?",
+				"checked": false
+			},
+			{
+				"question": "Had esex with multiple people at once?",
+				"checked": false
+			},
+			{
+				"question": "Had esex with a remote-controlled sex toy involved?",
+				"checked": false
+			},
+			{ "question": "Followed masturbation instructions?", "checked": false },
+			{
+				"question": "Been caught IRL while engaged in sexual acts with them?",
+				"checked": false
+			},
+			{
+				"question": "Been afraid your nudes would get leaked?",
+				"checked": false
+			},
+			{
+				"question": "Had your nudes leaked or leaked theirs?",
+				"checked": false
+			},
+			{
+				"question": "Forced them to do something that you knew they wouldn’t like?",
+				"checked": false
+			},
+			{ "question": "Participated in roleplay?", "checked": false },
+			{ "question": "Participated in age play?", "checked": false },
+			{
+				"question": "Dated or engaged in sexual interactions with a minor whilst being an adult?",
+				"checked": false
+			}
+		]
+	},
+	{
+		"category": "Relationship History",
+		"items": [
+			{ "question": "Been in an online relationship?", "checked": false },
+			{
+				"question": "Had dated without seeing what they looked like?",
+				"checked": false
+			},
+			{ "question": "Had believed they were the one?", "checked": false },
+			{ "question": "Had messaged them, 'I love you'?", "checked": false },
+			{
+				"question": "Had told your friends and family members about them?",
+				"checked": false
+			},
+			{
+				"question": "Had plans to meet each other in real life?",
+				"checked": false
+			},
+			{
+				"question": "Had to take a long drive or flight to finally meet each other?",
+				"checked": false
+			},
+			{ "question": "Every relationship was online?", "checked": false },
+			{
+				"question": "Been in an online relationship less than 3 months?",
+				"checked": false
+			},
+			{
+				"question": "Been in an online relationship longer than a year?",
+				"checked": false
+			},
+			{
+				"question": "Been in multiple online relationships simultaneously?",
+				"checked": false
+			},
+			{
+				"question": "Cheated on an online partner with another online person?",
+				"checked": false
+			}
+		]
+	},
+	{
+		"category": "The End",
+		"items": [
+			{ "question": "Been heartbroken by them?", "checked": false },
+			{ "question": "Broke up with them through text?", "checked": false },
+			{ "question": "Been ghosted and been upset about it?", "checked": false },
+			{
+				"question": "Had ghosted them after talking to them every day for weeks?",
+				"checked": false
+			},
+			{
+				"question": "Blocked or been blocked by them on all platforms?",
+				"checked": false
+			},
+			{ "question": "Developed trust issues?", "checked": false },
+			{ "question": "Developed insecurities?", "checked": false },
+			{
+				"question": "Threatened or been threatened with blackmail?",
+				"checked": false
+			},
+			{
+				"question": "Threatened or been threatened with self-harm?",
+				"checked": false
+			},
+			{
+				"question": "Self-harmed because of a breakup online?",
+				"checked": false
+			}
+		]
+	},
+	{
+		"category": "<3",
+		"items": [
+			{
+				"question": "Loved them purely, wholeheartedly, and unconditionally?",
+				"checked": false
+			}
+		]
+	}
+]
