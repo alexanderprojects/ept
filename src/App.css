@@ -1,0 +1,156 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  overscroll-behavior: none;
+}
+
+/* Disables user select */
+body {
+  user-select: none;
+  /* Following is for older browsers */
+  /* For Safari and Chrome */
+  -webkit-user-select: none;
+  /* For Firefox */
+  -moz-user-select: none;
+  /* For IE/Edge */
+  -ms-user-select: none;
+  /* Standard */
+  user-select: none;
+}
+
+
+/* Wallpaper */
+body {
+  background-color: #FFE4EC;
+  background-image: url('/background.svg');
+  background-repeat: repeat;
+  background-size: 1000px;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  font-family: 'Arial', sans-serif;
+
+}
+
+/* Website title */
+.title {
+  margin-top: 40px;
+  margin-bottom: 12px;
+}
+
+/* General card component */
+.card {
+  background: #FFE4EC;
+  border: 2px solid #EC83A8;
+  border-radius: 10px;
+  padding: 20px;
+  max-width: 650px;
+  color: #440747;
+  line-height: 1.4;
+}
+
+/* Adds gaps between question sections */
+.all-sections-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  line-height: normal;
+
+}
+
+/* Question section header component */
+.section-header {
+  background-color: #EC83A8;
+  color: white;
+  font-weight: bold;
+  padding: 2px 5px;
+  border-radius: 3px;
+  /* Means it takes up only space of title */
+  display: inline-block;
+  font-size: 16px;
+  margin-bottom: 9px;
+}
+
+.question-group-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 6px
+}
+
+/* Wraps the 3 elements in a question component: number, label(question, checkbox) */
+.question-wrapper {
+  display: flex;
+  flex-direction: row;
+}
+
+/* Group(checkbox and question), when either is clicked will tick checkbox */
+.check-label {
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+}
+
+.number {
+  /* Set minimum width to handle up to triple digits */
+  min-width: 30px;
+  /* Ensure the numbers are right-aligned */
+  text-align: right;
+}
+
+.question {
+  /* Question fills the rest of the available space so it starts on the LHS */
+  flex-grow: 1;
+}
+
+/* Checkbox Component */
+input[type="checkbox"] {
+  /* Adjust checkbox size */
+  transform: scale(1.2);
+  cursor: pointer;
+  /* using flex doesnt align all of them to the middle */
+  margin: 0px 10px;
+}
+
+/* Two buttons Wrapper */
+.buttons-wrapper {
+  display: flex;
+  flex-direction: row;
+  gap: 18px;
+  /* spacing from bottom of page */
+  margin-bottom: 60px;
+}
+
+.button {
+  background: #FFE4EC;
+  color: #440747;
+  font-size: 16px;
+  border: 2px solid #EC83A8;
+  border-radius: 10px;
+  padding: 10px 15px;
+  cursor: pointer;
+  transition-duration: 0.4s;
+}
+
+.button:hover {
+  background-color: #EC83A8;
+  color: white;
+}
+
+/* Score Value */
+.score-value {
+  color: #BE1884;
+  font-size: 65px;
+}
+
+.footer {
+  color: #EC83A8;
+  text-align: center;
+  padding-bottom: 10px;
+}
