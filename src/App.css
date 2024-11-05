@@ -150,7 +150,8 @@ input[type="checkbox"] {
 }
 
 .footer {
-  color: #EC83A8;
+  color: #F49DBB;
   text-align: center;
   padding-bottom: 10px;
+  font-size: 14px;
 }
