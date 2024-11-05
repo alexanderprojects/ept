@@ -12,10 +12,6 @@
 			{
 				"question": "Had joined e-dating Discord servers unironically?",
 				"checked": false
-			},
-			{
-				"question": "Had actively sought out being praised or degraded online?",
-				"checked": false
 			}
 		]
 	},
@@ -28,15 +24,11 @@
 			},
 			{ "question": "Played co-op games?", "checked": false },
 			{ "question": "Played iMessage games?", "checked": false },
-			{ "question": "Played drinking games?", "checked": false },
 			{
 				"question": "Placed your Minecraft bed next to theirs?",
 				"checked": false
 			},
-			{
-				"question": "Sent a friend request after a game due to their voice or performance?",
-				"checked": false
-			},
+
 			{
 				"question": "Streamed or watched their game in a private call?",
 				"checked": false
@@ -54,28 +46,31 @@
 			{
 				"question": "Been attracted to them solely for their in-game skills?",
 				"checked": false
+			},
+			{
+				"question": "Sent a friend request after a game due to their voice or performance?",
+				"checked": false
 			}
 		]
 	},
 	{
 		"category": "Communication",
 		"items": [
+			{ "question": "Used Twitter?", "checked": false },
+			{ "question": "Used Discord?", "checked": false },
+			{ "question": "Communicated with them everyday?", "checked": false },
+			{
+				"question": "Communicated with them on multiple platforms simultaneously?",
+				"checked": false
+			},
 			{
 				"question": "Modified your voice pitch to impress them?",
 				"checked": false
 			},
 			{ "question": "Made barking or meowing sounds?", "checked": false },
-			{
-				"question": "Communicated with them on multiple platforms simultaneously?",
-				"checked": false
-			},
 			{ "question": "Called for over 24 hours?", "checked": false },
 			{ "question": "Called while sleeping?", "checked": false },
 			{ "question": "Called with video?", "checked": false },
-			{
-				"question": "Called with video doing daily activities?",
-				"checked": false
-			},
 			{ "question": "Called them mommy or daddy?", "checked": false }
 		]
 	},
@@ -120,6 +115,8 @@
 				"question": "Shared a discord server with just them?",
 				"checked": false
 			},
+			{ "question": "Shared 'inside jokes'?", "checked": false },
+
 			{ "question": "Shared your darkest secrets?", "checked": false },
 			{ "question": "Lied about your age?", "checked": false },
 			{
@@ -132,6 +129,7 @@
 	{
 		"category": "Obsession",
 		"items": [
+			{ "question": "Had or been 'lovebombed'?", "checked": false },
 			{ "question": "Dreamt about them?", "checked": false },
 			{ "question": "Stalked their match history?", "checked": false },
 			{ "question": "Stalked their social media?", "checked": false },
@@ -164,10 +162,6 @@
 				"question": "Sent a sexually explicit picture with face?",
 				"checked": false
 			},
-			{
-				"question": "Sent a sexually explicit picture unsolicited?",
-				"checked": false
-			},
 			{ "question": "Received or sent a cum tribute?", "checked": false },
 			{ "question": "Discussed kinks?", "checked": false },
 			{
@@ -177,10 +171,6 @@
 			{ "question": "Had esex?", "checked": false },
 			{
 				"question": "Had esex with 5 or more different people?",
-				"checked": false
-			},
-			{
-				"question": "Had esex with multiple people at once?",
 				"checked": false
 			},
 			{
@@ -227,7 +217,11 @@
 			{ "question": "Had believed they were the one?", "checked": false },
 			{ "question": "Had messaged them, 'I love you'?", "checked": false },
 			{
-				"question": "Had told your friends and family members about them?",
+				"question": "Talked to their friends or family members?",
+				"checked": false
+			},
+			{
+				"question": "Had told your friends or family members about them?",
 				"checked": false
 			},
 			{
@@ -249,11 +243,7 @@
 				"checked": false
 			},
 			{
-				"question": "Been in multiple online relationships simultaneously?",
-				"checked": false
-			},
-			{
-				"question": "Cheated on an online partner with another online person?",
+				"question": "Cheated or been cheated on with another online person?",
 				"checked": false
 			}
 		]
