@@ -126,7 +126,7 @@ function App() {
 					</div>
 				</div>
 			)}
-			<p className="footer">© Alexander 2024</p>
+			<p className="footer">© Alexander 2025</p>
 		</div>
 	)
 };
