@@ -5,6 +5,7 @@
   overscroll-behavior: none;
 }
 
+
 /* Disables user select */
 body {
   user-select: none;
@@ -17,6 +18,23 @@ body {
   -ms-user-select: none;
   /* Standard */
   user-select: none;
+}
+
+
+a {
+  color: #EC83A8;
+  /* link color */
+  text-decoration: none;
+  /* removes underline */
+  font-weight: bold;
+  /* optional */
+  transition: color 0.3s;
+  /* smooth hover effect */
+}
+
+a:hover {
+  color: #BE1884;
+  /* darker shade on hover */
 }
 
 
@@ -36,7 +54,10 @@ body {
   align-items: center;
   text-align: center;
   font-family: 'Arial', sans-serif;
-
+  /* keeps it centered */
+  margin: 0 auto;
+  max-width: 1300px;
+  width: 100%;
 }
 
 /* Website title */
