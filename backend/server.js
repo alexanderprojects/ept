@@ -3,6 +3,7 @@ const bodyParser = require("body-parser")
 const cors = require("cors")
 const Airtable = require("airtable")
 require("dotenv").config() // load .env
+const validateAdInput = require("./utils/validateAdInput")
 
 const PORT = process.env.PORT || 3000
 
@@ -42,11 +43,20 @@ app.get("/ads", async (req, res) => {
 app.post("/create-ad", async (req, res) => {
 	const { message, link } = req.body
 
+	// Validate body input
+	const errorMsg = validateAdInput({ message, link })
+	if (errorMsg) {
+		return res.status(400).json({ error: errorMsg })
+	}
+
 	try {
+		// return res.status(400).json({ error: errorMsg })
+		// -- for error modal testing
+
 		// Write to Airtable immediately with Paid = TRUE
 		const record = await base("Ads").create({
-			Message: message,
-			Link: link,
+			Message: message.trim(),
+			Link: link.trim(),
 			Paid: true, // mark as paid since we are skipping Stripe
 		})
 
@@ -55,7 +65,8 @@ app.post("/create-ad", async (req, res) => {
 			ad: { id: record.id, ...record.fields },
 		})
 	} catch (err) {
-		res.status(500).json({ error: err.message })
+		console.error("Airtable error:", err)
+		res.status(500).json({ error: "Failed to create ad in Airtable." })
 	}
 })
 
