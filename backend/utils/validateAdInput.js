@@ -1,5 +1,5 @@
 // validateAdInput.js
-function validateAdInput({ message, link }) {
+function validateAdInput({ message, link, email }) {
 	if (!message || typeof message !== "string" || message.trim() === "") {
 		return "Message is required and must be a non-empty string."
 	}
@@ -7,10 +7,21 @@ function validateAdInput({ message, link }) {
 		return "Link is required and must be a non-empty string."
 	}
 
+	if (!email || typeof email !== "string" || email.trim() === "") {
+		return "Email is required and must be a non-empty string."
+	}
+
+	// validate URL format
 	try {
 		new URL(link)
 	} catch {
 		return "Link must be a valid URL."
+	}
+
+	// Validate email format (basic RFC 5322 compliant regex)
+	const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+	if (!emailRegex.test(email)) {
+		return "Email must be a valid email address."
 	}
 
 	return null // no errors

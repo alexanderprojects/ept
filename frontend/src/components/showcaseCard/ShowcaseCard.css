@@ -76,22 +76,23 @@
 
 /* SHOWCASE BOTTOM ROW */
 .showcase-ad-message {
-    padding: 0 50px;
-    line-height: 1.3;
     margin-bottom: 10px;
 
+}
+
+.clamp {
+    padding: 0 50px;
+    line-height: 1.3;
     display: -webkit-box;
     /* needed for line clamp */
     -webkit-line-clamp: 1;
     line-clamp: 1;
-    /* show max 2 lines */
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
     min-height: calc(1.3em * 1);
-    /* ensure 2 lines worth of height */
+    /* ensure 1 lines worth of height */
 }
-
 
 .showcase-ad-link {
     color: #EC83A8;
@@ -99,7 +100,13 @@
     text-decoration: none;
     font-size: 15px;
     transition: color 0.2s;
+
+    /* allow url wrapping */
+    white-space: normal;
+    /* break long URLs if needed */
+    word-break: break-word;
 }
+
 
 .showcase-ad-link:hover {
     color: #BE1884;
