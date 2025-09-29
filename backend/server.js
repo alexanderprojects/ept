@@ -87,7 +87,7 @@ app.post("/create-ad", async (req, res) => {
 		// Write to Airtable immediately with Paid = TRUE
 		const record = await base("Ads").create({
 			Message: message.trim(),
-			Link: link.trim(),
+			Link: link ? link.trim() : "",
 			Email: email.trim(),
 			Paid: true, // mark as paid since we are skipping Stripe
 		})

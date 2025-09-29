@@ -6,9 +6,9 @@ import Form from "./adForm/Form";
 
 const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
-export default function CreateAdModal({ onClose, onAdCreated }) {
-    const [message, setMessage] = useState("");
+export default function FormModal({ onClose, onAdCreated }) {
     const [email, setEmail] = useState("");
+    const [message, setMessage] = useState("");
     const [link, setLink] = useState("");
     const [loading, setLoading] = useState(false);
     const [successModal, setSuccessModal] = useState(null);
@@ -20,7 +20,6 @@ export default function CreateAdModal({ onClose, onAdCreated }) {
         const newErrors = {};
         // Check if email is empty
         if (!email.trim()) newErrors.email = "Email is required.";
-
 
         // Check if message is empty
         if (!message.trim()) newErrors.message = "Message is required.";
@@ -36,49 +35,38 @@ export default function CreateAdModal({ onClose, onAdCreated }) {
                 newErrors.email = "Email must be a valid email address.";
             }
         }
+
         // If link has a value, validate URL
         if (link.trim()) {
             try {
                 new URL(link);
             } catch {
-                newErrors.link = "Link must be a valid URL, it must start with https://";
+                newErrors.link = "Link must be a valid URL and starts with https://";
             }
         }
-
 
         return newErrors;
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
-        // Run validation before submitting
         const validationErrors = validate();
         if (Object.keys(validationErrors).length > 0) {
             setErrors(validationErrors);
             return;
         }
-
         setErrors({});
         setLoading(true);
-
         try {
-            // Send ad creation request to backend
             const res = await fetch(`${backendUrl}/create-ad`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ message, link, email }),
             });
-
             const data = await res.json();
-
-            // If backend fails, throw error
             if (!res.ok) throw new Error(data.error || "Failed to create ad");
-
-            // Success -> show SuccessModal
             setSuccessModal(data.ad);
         } catch (err) {
-            // Failure -> show ErrorModal
             setErrorModal(err.message);
         } finally {
             setLoading(false);
@@ -91,10 +79,8 @@ export default function CreateAdModal({ onClose, onAdCreated }) {
 
     return (
         <ModalWrapper onClose={onClose}>
-            <h3 style={{ color: "#BE1884", marginBottom: 10 }}>
-                Advertise on the Community Board
-            </h3>
-            <p>
+            <h3 style={{ color: "#BE1884", marginBottom: 10 }}>Advertise on the Community Board</h3>
+            <p style={{}}>
                 <b>
                     Want to shoutout your e-love, promote your profile or have a general message to the e-dating community?
                 </b>
@@ -109,15 +95,8 @@ export default function CreateAdModal({ onClose, onAdCreated }) {
                 handleSubmit={handleSubmit}
                 loading={loading}
                 errors={errors}
-                setErrors={setErrors}
             />
-            <p style={{ fontSize: "12px", marginTop: "8px" }}>Contact us at  {" "}
-                <b>
-                    <a href="mailto:contactlovetest@gmail.com" target="_blank" rel="noopener noreferrer">
-                        Support Email.
-                    </a>
-                </b>
-            </p>
+
         </ModalWrapper>
     );
 }

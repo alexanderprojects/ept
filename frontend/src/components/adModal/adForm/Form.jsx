@@ -49,7 +49,7 @@ export default function Form({
             </label>
 
             <label>
-                <p className="input-text">Link*</p>
+                <p className="input-text">Link (Optional)</p>
                 <input
                     type="text"
                     value={link}
