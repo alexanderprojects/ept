@@ -19,6 +19,7 @@ const app = express()
 const allowedOrigins = [
 	"http://localhost:5173", // dev frontend
 	"https://edaterlovetest.com", // production frontend
+	"https://github.com/alexanderprojects/ept", // production frontend github pages
 ]
 
 app.use(
