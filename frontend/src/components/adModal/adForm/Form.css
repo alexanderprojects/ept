@@ -1,0 +1,100 @@
+/* Wrapper form styles */
+.ad-form {
+    margin-top: 15px;
+    text-align: left;
+    font-size: 13px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* Input + textarea styling */
+.ad-form-input,
+.ad-form-textarea {
+    width: 100%;
+    padding: 6px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    font-family: Arial, sans-serif;
+    /* explicitly match font */
+    line-height: 1.4;
+    /* match line spacing */
+    box-sizing: border-box;
+    border-color: #f4b8d7;
+
+    /* ensures padding doesn't add extra width */
+}
+
+
+.input-text {
+    margin-bottom: 3px;
+    font-weight: bold;
+    color: #BE1884;
+}
+
+
+.ad-form-input::placeholder,
+.ad-form-textarea::placeholder {
+    color: #dca8c8;
+    font-style: italic;
+}
+
+.ad-form-textarea {
+    resize: none
+}
+
+/* Validation error messages */
+.ad-form-error {
+    color: red;
+    font-size: 12px;
+    margin-top: 1px;
+    margin-bottom: 5px;
+}
+
+/* Disclaimer under the form */
+.ad-form-note {
+    font-size: 13px;
+    color: #e39dd2ff;
+    text-align: left;
+    margin-top: 8px;
+}
+
+/* Submit button */
+.ad-form-submit {
+    width: 100%;
+    background: transparent;
+    margin-top: 10px;
+
+    font-weight: bold;
+    padding: 1px 5px;
+    border: 2px solid #EC83A8;
+    font-size: 12px;
+    border-radius: 6px;
+    margin-top: 10px;
+    transition-duration: 0.2s;
+    height: 30px;
+
+}
+
+.ad-form-submit:hover {
+    background-color: #EC83A8;
+    color: white;
+    cursor: pointer;
+}
+
+.ad-form-error-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+.char-count {
+    font-size: 0.85rem;
+    color: #e39dd2ff;
+
+    /* ensures it always sticks to the right */
+    margin-left: auto;
+
+}

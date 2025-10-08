@@ -1,0 +1,331 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    overscroll-behavior: none;
+}
+
+/* Disables user select */
+body {
+    user-select: none;
+    /* Following is for older browsers */
+    /* For Safari and Chrome */
+    -webkit-user-select: none;
+    /* For Firefox */
+    -moz-user-select: none;
+    /* For IE/Edge */
+    -ms-user-select: none;
+    /* Standard */
+    user-select: none;
+}
+
+a {
+    color: #EC83A8;
+    /* link color */
+    text-decoration: none;
+    /* removes underline */
+    font-weight: bold;
+    /* optional */
+    transition: color 0.3s;
+    /* smooth hover effect */
+}
+
+a:hover {
+    color: #BE1884;
+    /* darker shade on hover */
+}
+
+/* Wallpaper */
+body {
+    background-color: #FFE4EC;
+    background-image: url('/background.svg');
+    background-repeat: repeat;
+    background-size: 1000px;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    font-family: 'Arial', sans-serif;
+    /* keeps it centered */
+    margin: 0 auto;
+    /* background-color: #440747; */
+    max-width: 900px;
+}
+
+
+/* Website title */
+.title {
+    margin-top: 40px;
+    margin-bottom: 12px;
+}
+
+/* General card component */
+.card {
+    background: #FFE4EC;
+    border: 2px solid #EC83A8;
+    border-radius: 10px;
+    padding: 20px;
+    color: #440747;
+    line-height: 1.4;
+    overflow: hidden;
+}
+
+.line-break {
+    color: #EC83A8;
+    margin: 10px 0px 5px 0px;
+    font-size: 8px;
+}
+
+
+/* Adds gaps between question sections */
+.all-sections-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    line-height: normal;
+
+}
+
+.content-container {
+    display: flex;
+    flex-direction: row;
+    gap: 12px;
+    align-items: flex-start;
+    /* Ensure children align to top for sticky */
+}
+
+/* Ad column styles */
+.ad-column {
+    max-width: 250px;
+    background: #FFE4EC;
+    border: 2px solid #EC83A8;
+    border-radius: 10px;
+    padding: 10px 10px 12px 10px;
+    color: #440747;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    height: 500px;
+    box-sizing: border-box;
+    position: sticky;
+    top: 24px;
+    /* distance from top of container */
+    align-self: flex-start;
+    z-index: 2;
+}
+
+.ad-header {
+    font-weight: bold;
+    color: #EC83A8;
+    font-size: 17px;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.ad-message-section {
+    padding: 10px;
+    font-size: 15px;
+    line-height: 1.3;
+    word-break: break-word;
+    text-align: center;
+}
+
+.ad-author-section {
+    text-align: center;
+    padding: 8px 10px;
+    border-radius: 0 0 10px 10px;
+    background-color: #fff0f5;
+    /* light pink background for author section */
+    transition: background-color 0.3s;
+    font-size: 12px;
+    color: #888;
+}
+
+.ad-author-section {
+    text-align: center;
+    padding: 8px 10px;
+    border-radius: 0 0 10px 10px;
+    background-color: #fff0f5;
+    /* light pink background */
+    transition: background-color 0.3s, color 0.3s;
+    font-size: 12px;
+    color: #EC83A8;
+}
+
+.ad-author-section.clickable {
+    cursor: pointer;
+}
+
+.ad-author-section.clickable:hover {
+    background-color: #ffe0f0;
+    /* hover color */
+    color: #BE1884;
+    transition: background-color 0.3s;
+}
+
+.ad-list {
+    flex: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    scrollbar-width: thin;
+    scrollbar-color: #EC83A8 #FFE4EC;
+    max-height: 440px;
+    padding-right: 4px;
+}
+
+.ad-list::-webkit-scrollbar {
+    width: 7px;
+}
+
+.ad-list::-webkit-scrollbar-thumb {
+    background: #EC83A8;
+    border-radius: 6px;
+}
+
+.ad-list::-webkit-scrollbar-track {
+    background: #FFE4EC;
+    border-radius: 6px;
+}
+
+.ad-item {
+    background: #fff6fa;
+    border: 1px solid #EC83A8;
+    border-radius: 10px;
+
+}
+
+/* Question section header component */
+.section-header {
+    background-color: #EC83A8;
+    color: white;
+    font-weight: bold;
+    padding: 2px 5px;
+    border-radius: 3px;
+    /* Means it takes up only space of title */
+    display: inline-block;
+    font-size: 16px;
+    margin-bottom: 9px;
+
+}
+
+.section-header-button {
+    font-weight: bold;
+    padding: 1px 5px;
+    border: 2px solid #EC83A8;
+    border-radius: 3px;
+    /* Means it takes up only space of title */
+    display: inline-block;
+    font-size: 16px;
+    box-sizing: content-box;
+}
+
+
+.section-header-button:hover {
+    background-color: #EC83A8;
+    color: white;
+    cursor: pointer;
+
+}
+
+.question-group-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 6px
+}
+
+/* Wraps the 3 elements in a question component: number, label(question, checkbox) */
+.question-wrapper {
+    display: flex;
+    flex-direction: row;
+}
+
+/* Group(checkbox and question), when either is clicked will tick checkbox */
+.check-label {
+    cursor: pointer;
+    display: flex;
+    flex-direction: row;
+}
+
+.number {
+    /* Set minimum width to handle up to triple digits */
+    min-width: 30px;
+    /* Ensure the numbers are right-aligned */
+    text-align: right;
+}
+
+.question {
+    /* Question fills the rest of the available space so it starts on the LHS */
+    flex-grow: 1;
+}
+
+/* Checkbox Component */
+input[type="checkbox"] {
+    /* Adjust checkbox size */
+    transform: scale(1.2);
+    cursor: pointer;
+    /* using flex doesnt align all of them to the middle */
+    margin: 0px 10px;
+}
+
+/* Two buttons Wrapper */
+.buttons-wrapper {
+    display: flex;
+    flex-direction: row;
+    gap: 18px;
+    /* spacing from bottom of page */
+    margin-bottom: 60px;
+}
+
+.button {
+    background: #FFE4EC;
+    color: #440747;
+    font-size: 16px;
+    border: 2px solid #EC83A8;
+    border-radius: 10px;
+    padding: 10px 15px;
+    cursor: pointer;
+    transition-duration: 0.4s;
+}
+
+.button:hover {
+    background-color: #EC83A8;
+    color: white;
+
+}
+
+/* Score Value */
+.score-value {
+    color: #BE1884;
+    font-size: 65px;
+}
+
+.footer {
+    color: #F49DBB;
+    text-align: center;
+    padding-bottom: 10px;
+    font-size: 14px;
+}
+
+.advertise-here-card {
+    cursor: pointer;
+    border: 2px dashed #EC83A8;
+    background-color: #fff0f5;
+    transition: background 0.2s, border-color 0.2s, box-shadow 0.2s;
+    padding: 20px 30px;
+    text-align: center;
+}
+
+.advertise-here-card:hover,
+.advertise-here-card:focus {
+    background: #ffe0f0;
+    border-color: #BE1884;
+    transition: background-color 0.3s;
+
+}
