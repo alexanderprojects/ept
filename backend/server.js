@@ -14,13 +14,27 @@ const base = new Airtable({ apiKey: process.env.AIRTABLE_API_KEY }).base(
 const tableName = "Ads"
 
 const app = express()
-// app.use(cors())
+
+// CORS setup
+const allowedOrigins = [
+	"http://localhost:5173", // dev frontend
+	"https://edaterlovetest.com", // production frontend
+]
+
 app.use(
 	cors({
-		origin: [
-			"http://localhost:5173", // dev frontend
-			"https://edaterlovetest.com", // production frontend
-		],
+		origin: function (origin, callback) {
+			if (!origin) {
+				// If request has no origin (e.g., Postman or server-to-server), allow it
+				return callback(null, true)
+			}
+			if (allowedOrigins.includes(origin)) {
+				// If origin is in the whitelist, allow it
+				return callback(null, true)
+			}
+			// Otherwise, block
+			return callback(new Error("Not allowed by CORS"))
+		},
 	})
 )
 
