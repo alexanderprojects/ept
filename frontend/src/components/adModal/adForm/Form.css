@@ -82,3 +82,19 @@
     color: white;
     cursor: pointer;
 }
+
+.ad-form-error-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+.char-count {
+    font-size: 0.85rem;
+    color: #e39dd2ff;
+
+    /* ensures it always sticks to the right */
+    margin-left: auto;
+
+}

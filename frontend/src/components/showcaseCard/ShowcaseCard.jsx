@@ -143,8 +143,8 @@ export default function ShowcaseAd({ interval = 3000 }) {
                 <div>
                     There was an error showing ads. Email at{" "}
                     <b>
-                        <a href="mailto:contactlovetest@gmail.com" style={{ cursor: "pointer" }}>
-                            contactlovetest@gmail.com
+                        <a href="mailto:edaterlovetest@gmail.com" style={{ cursor: "pointer" }}>
+                            edaterlovetest@gmail.com
                         </a>
                     </b>
                 </div>
@@ -153,17 +153,21 @@ export default function ShowcaseAd({ interval = 3000 }) {
             ) : (
                 <>
                     {/* AD SECTION */}
-                    <div className="showcase-ad-message clamp">{ad.Message}</div>
-                    {ad.Link && (
-                        <a
-                            className="showcase-ad-link clamp"
-                            href={typeof ad.Link === "string" ? ad.Link : ad.Link.url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                        >
-                            {typeof ad.Link === "string" ? ad.Link : (ad.Link.text || ad.Link.url)}
-                        </a>
-                    )}
+                    <div className="showcase-middle-row">
+                        <div className="showcase-ad-message clamp">{ad.Message}</div>
+                        {ad.Link ? (
+                            <a
+                                className="showcase-ad-link clamp"
+                                href={typeof ad.Link === "string" ? ad.Link : ad.Link.url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                {typeof ad.Link === "string" ? ad.Link : (ad.Link.text || ad.Link.url)}
+                            </a>
+                        ) : (
+                            <span className="showcase-ad-link-anonymous clamp">Anonymous</span>
+                        )}
+                    </div>
 
                     <div className="showcase-view-button" onClick={handleSeeMore}>View Post</div>
 

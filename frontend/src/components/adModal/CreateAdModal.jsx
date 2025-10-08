@@ -3,6 +3,7 @@ import ModalWrapper from "./ModalWrapper";
 import SuccessModal from "./SuccessModal";
 import ErrorModal from "./ErrorModal";
 import Form from "./adForm/Form";
+import BenefitCard from "./benefitCard/BenefitCard";
 
 const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
@@ -26,7 +27,7 @@ export default function CreateAdModal({ onClose, onAdCreated }) {
         if (!message.trim()) newErrors.message = "Message is required.";
 
         // Check if link is empty
-        if (!link.trim()) newErrors.link = "Link is required.";
+        // if (!link.trim()) newErrors.link = "Link is required.";
 
         // if email has a value, validate email
         if (email.trim()) {
@@ -67,7 +68,10 @@ export default function CreateAdModal({ onClose, onAdCreated }) {
             const res = await fetch(`${backendUrl}/create-ad`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ message, link, email }),
+                body: JSON.stringify({
+                    message, email,
+                    link: link.trim() || null  //if link is empty string, send null, otherwise send trimemd link
+                }),
             });
 
             const data = await res.json();
@@ -99,6 +103,8 @@ export default function CreateAdModal({ onClose, onAdCreated }) {
                     Want to shoutout your e-love, promote your profile or have a general message to the e-dating community?
                 </b>
             </p>
+
+            <BenefitCard />
             <Form
                 message={message}
                 setMessage={setMessage}
@@ -113,8 +119,8 @@ export default function CreateAdModal({ onClose, onAdCreated }) {
             />
             <p style={{ fontSize: "12px", marginTop: "8px" }}>Contact us at  {" "}
                 <b>
-                    <a href="mailto:contactlovetest@gmail.com" target="_blank" rel="noopener noreferrer">
-                        Support Email.
+                    <a href="mailto:edaterlovetest@gmail.com">
+                        edaterlovetest@gmail.com
                     </a>
                 </b>
             </p>

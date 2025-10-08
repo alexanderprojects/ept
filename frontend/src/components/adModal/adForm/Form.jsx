@@ -1,5 +1,8 @@
 import "./Form.css";
 
+const messageMaxLength = 500
+const linkMaxLength = 200
+
 export default function Form({
     message,
     setMessage,
@@ -42,14 +45,30 @@ export default function Form({
                     rows={3}
                     className="ad-form-textarea"
                     placeholder="Write your message here..."
-                    maxLength={200}
+                    maxLength={messageMaxLength}
                 />
-                {/* Error for empty/invalid message */}
-                {errors.message && <div className="ad-form-error">{errors.message}</div>}
+
+                <div className="ad-form-error-row">
+                    {/* Error on the left */}
+                    {/* Error for empty/invalid message */}
+                    {errors.message && (
+                        <div className="ad-form-error">
+                            {errors.message}
+                        </div>
+                    )}
+                    {/* Char count on the right */}
+                    <span className="char-count">
+                        {message.length}/{messageMaxLength}
+                    </span>
+                </div>
+
             </label>
 
             <label>
-                <p className="input-text">Link (Optional)</p>
+                <p className="input-text">Link {" "}
+                    <span style={{ fontWeight: 'bold', color: '#a9a8a8ff' }}>(Optional)</span>
+                </p>
+
                 <input
                     type="text"
                     value={link}
@@ -59,7 +78,7 @@ export default function Form({
                     }}
                     className="ad-form-input"
                     placeholder="https://example.com"
-                    maxLength={100}
+                    maxLength={linkMaxLength}
                 />
                 {/* Error for empty/invalid link */}
                 {errors.link && <div className="ad-form-error">{errors.link}</div>}

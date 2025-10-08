@@ -15,6 +15,8 @@ const tableName = "Ads"
 
 const app = express()
 app.use(cors())
+// app.use(cors({ origin: "https://edaterlovetest.com" }));
+
 app.use(bodyParser.json())
 
 // In-memory cache
@@ -87,7 +89,7 @@ app.post("/create-ad", async (req, res) => {
 		// Write to Airtable immediately with Paid = TRUE
 		const record = await base("Ads").create({
 			Message: message.trim(),
-			Link: link ? link.trim() : "",
+			Link: link?.trim() || null, // optional link: null if empty
 			Email: email.trim(),
 			Paid: true, // mark as paid since we are skipping Stripe
 		})

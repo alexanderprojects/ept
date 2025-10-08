@@ -16,15 +16,17 @@ export default function SuccessModal({ ad, onClose, onAdCreated }) {
             <div className="card" style={{ marginBottom: 10 }}>
                 <div className="showcase-ad-message">{ad.Message}</div>
 
-                {ad.Link && (
+                {ad.Link ? (
                     <a
-                        className="showcase-ad-link"
+                        className="showcase-ad-link clamp"
                         href={typeof ad.Link === "string" ? ad.Link : ad.Link.url}
                         target="_blank"
                         rel="noopener noreferrer"
                     >
                         {typeof ad.Link === "string" ? ad.Link : (ad.Link.text || ad.Link.url)}
                     </a>
+                ) : (
+                    <span style={{ fontStyle: "italic", color: "#dca8c8" }}>Anonymous</span>
                 )}
             </div>
 
