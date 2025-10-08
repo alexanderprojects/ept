@@ -14,8 +14,15 @@ const base = new Airtable({ apiKey: process.env.AIRTABLE_API_KEY }).base(
 const tableName = "Ads"
 
 const app = express()
-app.use(cors())
-// app.use(cors({ origin: "https://edaterlovetest.com" }));
+// app.use(cors())
+app.use(
+	cors({
+		origin: [
+			"http://localhost:5173", // dev frontend
+			"https://edaterlovetest.com", // production frontend
+		],
+	})
+)
 
 app.use(bodyParser.json())
 
