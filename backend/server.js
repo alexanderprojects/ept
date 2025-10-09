@@ -2,9 +2,9 @@ const express = require("express")
 const bodyParser = require("body-parser")
 const cors = require("cors")
 const Airtable = require("airtable")
-require("dotenv").config() // load .env
-const validateAdInput = require("./utils/validateAdInput")
 const { lemonSqueezySetup } = require("@lemonsqueezy/lemonsqueezy.js")
+require("dotenv").config()
+const validateAdInput = require("./utils/validateAdInput")
 const crypto = require("crypto")
 
 const PORT = process.env.PORT || 3000
@@ -21,72 +21,59 @@ const LEMON_STORE_ID = process.env.LEMON_STORE_ID
 const LEMON_VARIANT_ID = process.env.LEMON_VARIANT_ID
 const LEMON_SIGNING_SECRET = process.env.LEMON_SIGNING_SECRET
 
+// Initialize Lemon Squeezy SDK
+lemonSqueezySetup({ apiKey: LEMON_SECRET_KEY })
+
 const app = express()
 
 // CORS setup
 const allowedOrigins = [
-	"http://localhost:5173", // dev frontend
-	"https://edaterlovetest.com", // production frontend
-	"https://github.com/alexanderprojects/ept", // production frontend github pages
+	"http://localhost:5173",
+	"https://edaterlovetest.com",
+	"https://github.com/alexanderprojects/ept",
 ]
 app.use(
 	cors({
 		origin: function (origin, callback) {
-			// If request has no origin (e.g., Postman or server-to-server), allow it - removed for production so direct url visits doesnt show anything.
 			if (!origin) return callback(null, true)
-			// If origin is in the whitelist, allow it
 			if (allowedOrigins.includes(origin)) return callback(null, true)
-			// Otherwise, block
 			return callback(new Error("Not allowed by CORS"))
 		},
 	})
 )
 
-// JSON parsing — except for webhook
 app.use(bodyParser.json())
 
 // In-memory Airtable Cache setup
 let adsCache = null
 let lastFetched = 0
-// TTL (e.g. 10 minutes)
 const CACHE_TTL = 1000 * 60 * 30
 
-// --- Helper to fetch from Airtable ---
 async function fetchAdsFromAirtable() {
 	const records = await base(tableName)
 		.select({
-			maxRecords: 10, // Limit the number of records
+			maxRecords: 10,
 			sort: [{ field: "CreatedAt", direction: "desc" }],
-			filterByFormula: `{Paid} = TRUE()`, // Filter records
+			filterByFormula: `{Paid} = TRUE()`,
 		})
 		.firstPage()
 
 	return records.map((r) => ({ id: r.id, ...r.fields }))
 }
 
-// Fetch all paid ads
 app.get("/ads", async (req, res) => {
 	try {
 		const now = Date.now()
 
-		// Serve from cache if valid
 		if (adsCache && now - lastFetched < CACHE_TTL) {
 			return res.json(adsCache)
 		}
 
-		// Otherwise fetch fresh
 		const ads = await fetchAdsFromAirtable()
 
-		// Update cache
 		adsCache = ads
 		lastFetched = now
 
-		// console.log("Fetched records:")
-		// records.forEach((record) => {
-		// console.log("Record ID:", record.id, "Fields:", record.fields)
-		// })
-
-		// Only send desired fields
 		const filteredAds = ads.map((ad) => ({
 			id: ad.id,
 			Message: ad.Message,
@@ -97,7 +84,6 @@ app.get("/ads", async (req, res) => {
 	} catch (err) {
 		console.error("Error fetching ads:", err)
 
-		// If Airtable fails but cache exists, serve fallback
 		if (adsCache) {
 			return res.json(adsCache)
 		}
@@ -106,33 +92,25 @@ app.get("/ads", async (req, res) => {
 	}
 })
 
-// Create a new ad (ignore lemonsqueezy for now)
 app.post("/create-ad", async (req, res) => {
 	const { message, link, email } = req.body
 
-	// Validate body input
 	const errorMsg = validateAdInput({ message, link, email })
 	if (errorMsg) {
 		return res.status(400).json({ error: errorMsg })
 	}
 
 	try {
-		// return res.status(400).json({ error: errorMsg })
-		// -- for error modal testing
-
-		// Write to Airtable immediately with Paid = TRUE
 		const record = await base("Ads").create({
 			Message: message.trim(),
-			Link: link?.trim() || null, // optional link: null if empty
+			Link: link?.trim() || null,
 			Email: email.trim(),
-			Paid: true, // mark as paid since we are skipping Stripe
+			Paid: true,
 		})
 
-		// Invalidate cache (force refresh next time someone calls GET /ads)
 		adsCache = null
 		lastFetched = 0
 
-		// Only return safe fields to frontend
 		res.json({
 			success: true,
 			ad: {
@@ -146,6 +124,7 @@ app.post("/create-ad", async (req, res) => {
 		res.status(500).json({ error: "Failed to create ad in Airtable." })
 	}
 })
+
 app.post("/create-checkout", async (req, res) => {
 	const { message, link, email } = req.body
 
