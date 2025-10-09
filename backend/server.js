@@ -2,11 +2,14 @@ const express = require("express")
 const bodyParser = require("body-parser")
 const cors = require("cors")
 const Airtable = require("airtable")
-const { lemonSqueezySetup } = require("@lemonsqueezy/lemonsqueezy.js")
+const {
+	lemonSqueezySetup,
+	createCheckout,
+} = require("@lemonsqueezy/lemonsqueezy.js")
+
 require("dotenv").config()
 const validateAdInput = require("./utils/validateAdInput")
 const crypto = require("crypto")
-const getRawBody = require("raw-body")
 
 const PORT = process.env.PORT || 3000
 
@@ -43,7 +46,13 @@ app.use(
 	})
 )
 
-app.use(bodyParser.json())
+app.use(
+	express.json({
+		verify: (req, res, buf) => {
+			req.rawBody = buf
+		},
+	})
+)
 
 // In-memory Airtable Cache setup
 let adsCache = null
@@ -135,8 +144,6 @@ app.post("/create-checkout", async (req, res) => {
 	}
 
 	try {
-		const { createCheckout } = require("@lemonsqueezy/lemonsqueezy.js")
-
 		const checkout = await createCheckout(LEMON_STORE_ID, LEMON_VARIANT_ID, {
 			checkoutData: {
 				email: email.trim(),
@@ -181,9 +188,6 @@ function verifyWebhookSignature(rawBody, signature, secret) {
 
 app.post("/webhook", async (req, res) => {
 	try {
-		// Grab raw body as Buffer
-		const raw = await getRawBody(req)
-
 		const signature = req.headers["x-signature"]
 		if (!signature) {
 			console.error("No signature header found")
@@ -192,9 +196,9 @@ app.post("/webhook", async (req, res) => {
 
 		// Verify signature
 		const isValid = verifyWebhookSignature(
-			raw,
+			req.rawBody,
 			signature,
-			process.env.LEMON_SIGNING_SECRET
+			LEMON_SIGNING_SECRET
 		)
 		if (!isValid) {
 			console.error("Invalid webhook signature")
@@ -202,7 +206,7 @@ app.post("/webhook", async (req, res) => {
 		}
 
 		// Parse payload
-		const payload = JSON.parse(raw.toString())
+		const payload = JSON.parse(req.rawBody.toString())
 		const eventName = payload.meta.event_name
 
 		console.log("Webhook received:", eventName)
