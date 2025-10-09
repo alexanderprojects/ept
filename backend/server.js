@@ -6,7 +6,7 @@ const { lemonSqueezySetup } = require("@lemonsqueezy/lemonsqueezy.js")
 require("dotenv").config()
 const validateAdInput = require("./utils/validateAdInput")
 const crypto = require("crypto")
-const { raw } = require("express")
+const getRawBody = require("raw-body")
 
 const PORT = process.env.PORT || 3000
 
@@ -43,7 +43,7 @@ app.use(
 	})
 )
 
-app.use(express.json())
+app.use(bodyParser.json())
 
 // In-memory Airtable Cache setup
 let adsCache = null
@@ -173,37 +173,36 @@ app.post("/create-checkout", async (req, res) => {
 })
 
 // Helper to verify webhook signature
-function verifyWebhookSignature(req, secret) {
-	const signature = req.headers["x-hub-signature-256"]
-	if (!signature) {
-		return false
-	}
-
-	// Convert request body to string if it's not already
-	const bodyStr =
-		typeof req.body === "string" ? req.body : JSON.stringify(req.body)
-
+function verifyWebhookSignature(rawBody, signature, secret) {
 	const hmac = crypto.createHmac("sha256", secret)
-	hmac.update(bodyStr)
-	const calculatedSignature = `sha256=${hmac.digest("hex")}`
-
-	return crypto.timingSafeEqual(
-		Buffer.from(signature),
-		Buffer.from(calculatedSignature)
-	)
+	const digest = hmac.update(rawBody).digest("hex")
+	return crypto.timingSafeEqual(Buffer.from(signature), Buffer.from(digest))
 }
 
-app.post(
-	"/webhook",
-	raw({ type: "application/json" }), // <-- raw body as Buffer
-	async (req, res) => {
-		if (!verifyWebhookSignature(req, process.env.WEBHOOK_SECRET)) {
-			return res.status(401).send("Invalid signature")
+app.post("/webhook", async (req, res) => {
+	try {
+		// Grab raw body as Buffer
+		const raw = await getRawBody(req)
+
+		const signature = req.headers["x-signature"]
+		if (!signature) {
+			console.error("No signature header found")
+			return res.status(401).send("Unauthorized")
 		}
 
-		// Parse the raw body as JSON after verification
-		const payload = JSON.parse(req.body.toString())
+		// Verify signature
+		const isValid = verifyWebhookSignature(
+			raw,
+			signature,
+			process.env.LEMON_SIGNING_SECRET
+		)
+		if (!isValid) {
+			console.error("Invalid webhook signature")
+			return res.status(401).send("Unauthorized")
+		}
 
+		// Parse payload
+		const payload = JSON.parse(raw.toString())
 		const eventName = payload.meta.event_name
 
 		console.log("Webhook received:", eventName)
@@ -246,7 +245,10 @@ app.post(
 		}
 
 		res.status(200).send("OK")
+	} catch (err) {
+		console.error("Webhook error:", err)
+		res.status(500).send("Internal Server Error")
 	}
-)
+})
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`))
