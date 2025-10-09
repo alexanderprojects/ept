@@ -6,6 +6,7 @@ const { lemonSqueezySetup } = require("@lemonsqueezy/lemonsqueezy.js")
 require("dotenv").config()
 const validateAdInput = require("./utils/validateAdInput")
 const crypto = require("crypto")
+const getRawBody = require("raw-body")
 
 const PORT = process.env.PORT || 3000
 
@@ -171,77 +172,83 @@ app.post("/create-checkout", async (req, res) => {
 	}
 })
 
+// Helper to verify webhook signature
 function verifyWebhookSignature(rawBody, signature, secret) {
 	const hmac = crypto.createHmac("sha256", secret)
 	const digest = hmac.update(rawBody).digest("hex")
 	return crypto.timingSafeEqual(Buffer.from(signature), Buffer.from(digest))
 }
 
-app.post(
-	"/webhook",
-	express.raw({ type: "application/json" }),
-	async (req, res) => {
-		try {
-			const signature = req.headers["x-signature"]
+app.post("/webhook", async (req, res) => {
+	try {
+		// Grab raw body as Buffer
+		const raw = await getRawBody(req)
 
-			if (!signature) {
-				console.error("No signature header found")
-				return res.status(401).send("Unauthorized")
-			}
-
-			const isValid = verifyWebhookSignature(
-				req.body,
-				signature,
-				LEMON_SIGNING_SECRET
-			)
-
-			if (!isValid) {
-				console.error("Invalid webhook signature")
-				return res.status(401).send("Unauthorized")
-			}
-
-			const payload = JSON.parse(req.body.toString())
-			const eventName = payload.meta.event_name
-
-			console.log("Webhook received:", eventName)
-
-			if (eventName === "order_created") {
-				const email = payload.data.attributes.user_email
-				const customDataArray = payload.meta.custom_data || []
-
-				const customData = {}
-				customDataArray.forEach((item) => {
-					const [key, ...valueParts] = item.split("=")
-					customData[key] = valueParts.join("=")
-				})
-
-				const message = customData.message
-				const link = customData.link
-
-				if (!message || !email) {
-					console.error("Missing required data in webhook payload")
-					return res.status(400).send("Bad Request")
-				}
-
-				const record = await base("Ads").create({
-					Message: message.trim(),
-					Link: link?.trim() || null,
-					Email: email.trim(),
-					Paid: true,
-				})
-
-				console.log("✅ Ad created successfully:", record.id)
-
-				adsCache = null
-				lastFetched = 0
-			}
-
-			res.status(200).send("OK")
-		} catch (err) {
-			console.error("Webhook error:", err)
-			res.status(500).send("Internal Server Error")
+		const signature = req.headers["x-signature"]
+		if (!signature) {
+			console.error("No signature header found")
+			return res.status(401).send("Unauthorized")
 		}
+
+		// Verify signature
+		const isValid = verifyWebhookSignature(
+			raw,
+			signature,
+			process.env.LEMON_SIGNING_SECRET
+		)
+		if (!isValid) {
+			console.error("Invalid webhook signature")
+			return res.status(401).send("Unauthorized")
+		}
+
+		// Parse payload
+		const payload = JSON.parse(raw.toString())
+		const eventName = payload.meta.event_name
+
+		console.log("Webhook received:", eventName)
+
+		if (eventName === "order_created") {
+			const email = payload.data.attributes.user_email
+			const customDataArray = payload.meta.custom_data || []
+
+			// Convert ["key=value"] array into object
+			const customData = {}
+			customDataArray.forEach((item) => {
+				const [key, ...valueParts] = item.split("=")
+				customData[key] = valueParts.join("=") // Join in case value contains '='
+			})
+
+			const message = customData.message
+			const link = customData.link
+
+			if (!message || !email) {
+				console.error("Missing required data in webhook payload", {
+					customData,
+					email,
+				})
+				return res.status(400).send("Bad Request")
+			}
+
+			// Create Airtable record
+			const record = await base("Ads").create({
+				Message: message.trim(),
+				Link: link?.trim() || null,
+				Email: email.trim(),
+				Paid: true,
+			})
+
+			console.log("✅ Ad created successfully:", record.id)
+
+			// Invalidate cache
+			adsCache = null
+			lastFetched = 0
+		}
+
+		res.status(200).send("OK")
+	} catch (err) {
+		console.error("Webhook error:", err)
+		res.status(500).send("Internal Server Error")
 	}
-)
+})
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`))
