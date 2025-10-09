@@ -4,6 +4,7 @@ const cors = require("cors")
 const Airtable = require("airtable")
 require("dotenv").config() // load .env
 const validateAdInput = require("./utils/validateAdInput")
+const { lemonSqueezySetup } = require("@lemonsqueezy/lemonsqueezy.js")
 const crypto = require("crypto")
 
 const PORT = process.env.PORT || 3000
@@ -145,97 +146,39 @@ app.post("/create-ad", async (req, res) => {
 		res.status(500).json({ error: "Failed to create ad in Airtable." })
 	}
 })
-
-// Updated /create-checkout endpoint
 app.post("/create-checkout", async (req, res) => {
 	const { message, link, email } = req.body
 
-	// Validate body input
 	const errorMsg = validateAdInput({ message, link, email })
 	if (errorMsg) {
 		return res.status(400).json({ error: errorMsg })
 	}
 
 	try {
-		console.log("Creating checkout with:")
-		console.log("Store ID:", LEMON_STORE_ID)
-		console.log("Variant ID:", LEMON_VARIANT_ID)
+		const { createCheckout } = require("@lemonsqueezy/lemonsqueezy.js")
 
-		// Create checkout session with Lemon Squeezy
-		const checkoutResponse = await fetch(
-			"https://api.lemonsqueezy.com/v1/checkouts",
-			{
-				method: "POST",
-				headers: {
-					Accept: "application/vnd.api+json",
-					"Content-Type": "application/vnd.api+json",
-					Authorization: `Bearer ${LEMON_SECRET_KEY}`,
-				},
-				body: JSON.stringify({
-					data: {
-						type: "checkouts",
-						attributes: {
-							checkout_data: {
-								email: email.trim(),
-								// Custom data as array of "key=value" strings
-								custom: [
-									`message=${message.trim()}`,
-									`link=${link?.trim() || ""}`,
-								],
-							},
-						},
-						relationships: {
-							store: {
-								data: {
-									type: "stores",
-									id: String(LEMON_STORE_ID),
-								},
-							},
-							variant: {
-								data: {
-									type: "variants",
-									id: String(LEMON_VARIANT_ID),
-								},
-							},
-						},
-					},
-				}),
-			}
-		)
+		const checkout = await createCheckout(LEMON_STORE_ID, LEMON_VARIANT_ID, {
+			checkoutData: {
+				email: email.trim(),
+				custom: [`message=${message.trim()}`, `link=${link?.trim() || ""}`],
+			},
+			checkoutOptions: {
+				buttonColor: "#7C3AED",
+			},
+			productOptions: {
+				redirectUrl: `${process.env.FRONTEND_URL}/payment-success`,
+			},
+		})
 
-		const checkoutData = await checkoutResponse.json()
-
-		if (!checkoutResponse.ok) {
-			console.error(
-				"Lemon Squeezy error:",
-				JSON.stringify(checkoutData, null, 2)
-			)
-
-			// Better error message
-			if (checkoutData.errors && checkoutData.errors.length > 0) {
-				const error = checkoutData.errors[0]
-				const detail = error.detail || "Unknown error"
-				const pointer = error.source?.pointer || ""
-
-				console.error(`Error at ${pointer}: ${detail}`)
-
-				if (pointer.includes("store")) {
-					throw new Error(
-						"Invalid Store ID. Please check your LEMON_STORE_ID in .env"
-					)
-				} else if (pointer.includes("variant")) {
-					throw new Error(
-						"Invalid Variant ID. Please check your LEMON_VARIANT_ID in .env"
-					)
-				}
-			}
-
-			throw new Error("Failed to create checkout session")
+		if (checkout.error) {
+			throw new Error(checkout.error.message)
 		}
 
-		const checkoutUrl = checkoutData.data.attributes.url
+		const checkoutUrl = checkout.data?.data.attributes.url
 
-		console.log("✅ Checkout created:", checkoutUrl)
+		if (!checkoutUrl) {
+			throw new Error("Failed to create checkout session")
+		}
 
 		res.json({
 			success: true,
@@ -244,19 +187,17 @@ app.post("/create-checkout", async (req, res) => {
 	} catch (err) {
 		console.error("Checkout creation error:", err)
 		res.status(500).json({
-			error: err.message || "Failed to create checkout session.",
+			error: "Failed to create checkout session.",
 		})
 	}
 })
 
-// Helper function to verify webhook signature
 function verifyWebhookSignature(rawBody, signature, secret) {
 	const hmac = crypto.createHmac("sha256", secret)
 	const digest = hmac.update(rawBody).digest("hex")
 	return crypto.timingSafeEqual(Buffer.from(signature), Buffer.from(digest))
 }
 
-// Webhook endpoint - MUST use raw body
 app.post(
 	"/webhook",
 	express.raw({ type: "application/json" }),
@@ -269,7 +210,6 @@ app.post(
 				return res.status(401).send("Unauthorized")
 			}
 
-			// Verify the webhook signature
 			const isValid = verifyWebhookSignature(
 				req.body,
 				signature,
@@ -281,39 +221,29 @@ app.post(
 				return res.status(401).send("Unauthorized")
 			}
 
-			// Parse the webhook payload
 			const payload = JSON.parse(req.body.toString())
 			const eventName = payload.meta.event_name
 
 			console.log("Webhook received:", eventName)
 
-			// Handle order_created event (successful payment)
 			if (eventName === "order_created") {
 				const email = payload.data.attributes.user_email
-
-				// Parse custom data from meta.custom_data (array of "key=value" strings)
 				const customDataArray = payload.meta.custom_data || []
 
-				// Convert array of "key=value" strings to object
 				const customData = {}
 				customDataArray.forEach((item) => {
 					const [key, ...valueParts] = item.split("=")
-					customData[key] = valueParts.join("=") // Join back in case value contains '='
+					customData[key] = valueParts.join("=")
 				})
 
 				const message = customData.message
 				const link = customData.link
 
-				console.log("Parsed custom data:", customData)
-
 				if (!message || !email) {
 					console.error("Missing required data in webhook payload")
-					console.log("Custom data:", customData)
-					console.log("Email:", email)
 					return res.status(400).send("Bad Request")
 				}
 
-				// Create ad in Airtable
 				const record = await base("Ads").create({
 					Message: message.trim(),
 					Link: link?.trim() || null,
@@ -323,7 +253,6 @@ app.post(
 
 				console.log("✅ Ad created successfully:", record.id)
 
-				// Invalidate cache
 				adsCache = null
 				lastFetched = 0
 			}
