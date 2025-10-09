@@ -147,7 +147,6 @@ app.post("/create-ad", async (req, res) => {
 	}
 })
 
-// Updated /create-checkout endpoint
 app.post("/create-checkout", async (req, res) => {
 	const { message, link, email } = req.body
 
@@ -184,6 +183,12 @@ app.post("/create-checkout", async (req, res) => {
 									`link=${link?.trim() || ""}`,
 								],
 							},
+							checkout_options: {
+								button_color: "#BE1884",
+							},
+							redirect_url:
+								process.env.FRONTEND_URL ||
+								"https://edaterlovetest.com/success",
 						},
 						relationships: {
 							store: {
