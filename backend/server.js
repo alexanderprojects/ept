@@ -181,9 +181,7 @@ function verifyWebhookSignature(req, secret) {
 
 	// Convert request body to string if it's not already
 	const bodyStr =
-		typeof req.body === "string"
-			? req.body
-			: JSON.stringify(req.body)
+		typeof req.body === "string" ? req.body : JSON.stringify(req.body)
 
 	const hmac = crypto.createHmac("sha256", secret)
 	hmac.update(bodyStr)
@@ -198,7 +196,7 @@ function verifyWebhookSignature(req, secret) {
 app.post(
 	"/webhook",
 	raw({ type: "application/json" }), // <-- raw body as Buffer
-	(req, res) => {
+	async (req, res) => {
 		if (!verifyWebhookSignature(req, process.env.WEBHOOK_SECRET)) {
 			return res.status(401).send("Invalid signature")
 		}
@@ -250,6 +248,5 @@ app.post(
 		res.status(200).send("OK")
 	}
 )
-
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`))
