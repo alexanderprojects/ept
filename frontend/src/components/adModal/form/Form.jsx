@@ -90,7 +90,7 @@ export default function Form({
 
             {/* Disclaimer text under the form */}
             <p className="ad-form-note">
-                We reserve the right to remove submissions if deemed too inappropriate.
+                We reserve the right to remove submissions if deemed inappropriate.
                 We will contact you to give you an opportunity to modify it.
             </p>
 

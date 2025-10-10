@@ -1,8 +1,7 @@
 import { useState } from "react";
 import ModalWrapper from "./ModalWrapper";
-import SuccessModal from "./SuccessModal";
 import ErrorModal from "./ErrorModal";
-import Form from "./adForm/Form";
+import Form from "./form/Form";
 import BenefitCard from "./benefitCard/BenefitCard";
 
 const backendUrl = import.meta.env.VITE_BACKEND_URL;
@@ -12,32 +11,22 @@ export default function CreateAdModal({ onClose, onAdCreated }) {
     const [email, setEmail] = useState("");
     const [link, setLink] = useState("");
     const [loading, setLoading] = useState(false);
-    const [successModal, setSuccessModal] = useState(null);
     const [errorModal, setErrorModal] = useState(null);
-
     const [errors, setErrors] = useState({});
 
     const validate = () => {
         const newErrors = {};
-        // Check if email is empty
+
         if (!email.trim()) newErrors.email = "Email is required.";
-
-
-        // Check if message is empty
         if (!message.trim()) newErrors.message = "Message is required.";
 
-        // Check if link is empty
-        // if (!link.trim()) newErrors.link = "Link is required.";
-
-        // if email has a value, validate email
         if (email.trim()) {
-            // Basic RFC 5322 compliant regex
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             if (!emailRegex.test(email)) {
                 newErrors.email = "Email must be a valid email address.";
             }
         }
-        // If link has a value, validate URL
+
         if (link.trim()) {
             try {
                 new URL(link);
@@ -45,7 +34,6 @@ export default function CreateAdModal({ onClose, onAdCreated }) {
                 newErrors.link = "Link must be a valid URL, it must start with https://";
             }
         }
-
 
         return newErrors;
     };
@@ -64,39 +52,37 @@ export default function CreateAdModal({ onClose, onAdCreated }) {
         setLoading(true);
 
         try {
-            // Send ad creation request to backend
-            const res = await fetch(`${backendUrl}/create-ad`, {
+            // Create checkout session with Lemon Squeezy
+            const res = await fetch(`${backendUrl}/create-checkout`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
-                    message, email,
-                    link: link.trim() || null  //if link is empty string, send null, otherwise send trimemd link
+                    message,
+                    email,
+                    link: link.trim() || null
                 }),
             });
 
             const data = await res.json();
 
-            // If backend fails, throw error
-            if (!res.ok) throw new Error(data.error || "Failed to create ad");
+            if (!res.ok) throw new Error(data.error || "Failed to create checkout");
 
-            // Success -> show SuccessModal
-            setSuccessModal(data.ad);
+            // Redirect to Lemon Squeezy checkout
+            window.location.href = data.checkoutUrl;
+
         } catch (err) {
-            // Failure -> show ErrorModal
             setErrorModal(err.message);
-        } finally {
             setLoading(false);
         }
     };
 
-    if (successModal) return <SuccessModal ad={successModal} onClose={onClose} onAdCreated={onAdCreated} />;
 
     if (errorModal) return <ErrorModal message={errorModal} onRetry={() => setErrorModal(null)} onClose={onClose} />;
 
     return (
         <ModalWrapper onClose={onClose}>
             <h3 style={{ color: "#BE1884", marginBottom: 10 }}>
-                Advertise on the Community Board
+                Advertise on the Community Board for $8.99
             </h3>
             <p>
                 <b>
@@ -117,7 +103,8 @@ export default function CreateAdModal({ onClose, onAdCreated }) {
                 errors={errors}
                 setErrors={setErrors}
             />
-            <p style={{ fontSize: "12px", marginTop: "8px" }}>Contact us at  {" "}
+            <p style={{ fontSize: "12px", marginTop: "8px" }}>
+                Contact us at{" "}
                 <b>
                     <a href="mailto:edaterlovetest@gmail.com">
                         edaterlovetest@gmail.com

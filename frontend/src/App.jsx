@@ -1,71 +1,17 @@
-import { useState } from "react";
-import questions from './data/questions.json';
-import './App.css';
-import title from '/title.svg';
-import QuizCard from "./components/quizCard/QuizCard";
-import Header from "./components/Header";
-import ScoreCard from "./components/ScoreCard";
-import ShowcaseAd from "./components/showcaseCard/ShowcaseCard";
-
-
-function App() {
-	const [tasks, setTasks] = useState(questions);
-	const [showTotal, setShowTotal] = useState(false);
-
-	const handleCheckboxChange = (categoryIndex, itemIndex) => {
-		const updatedTasks = [...tasks];
-		updatedTasks[categoryIndex].items[itemIndex].checked = !updatedTasks[categoryIndex].items[itemIndex].checked;
-		setTasks(updatedTasks);
-	};
-
-	const handleShowTotal = () => setShowTotal(true);
-
-	const handleClear = () => {
-		const clearedTasks = tasks.map(group => ({
-			...group,
-			items: group.items.map(item => ({ ...item, checked: false }))
-		}));
-		setTasks(clearedTasks);
-	};
-
-	const getTotalChecked = () => tasks.reduce(
-		(sum, group) => sum + group.items.filter(item => item.checked).length, 0
-	);
-
+// src/App.jsx
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import HomePage from "./pages/Home";
+import PaymentSuccess from "./pages/PaymentSuccess";
+import './App.css'
+export default function App() {
 	return (
-		<div className="container">
-			<img src={title} className="title" alt="Edater Love Test" />
-			{!showTotal ? (
-				<>
-					<Header showTotal={showTotal} /> {/* render descrption */}
-					<br />
-					<ShowcaseAd />
-					<br />
-					<div style={{ textAlign: 'left' }}>
-						{/* 	rendertasklist() */}
-						<div className="content-container">
-							<QuizCard tasks={tasks} onCheckboxChange={handleCheckboxChange} />
-						</div>
-
-						<br />
-						<div className="buttons-wrapper">
-							<button className="button" onClick={handleShowTotal}>Calculate Score</button>
-							<button className="button" onClick={handleClear}>Clear my Preferences</button>
-						</div>
-					</div>
-				</>
-			) : (
-
-				<div style={{ flex: 1 }}>
-
-					<Header showTotal={showTotal} />
-					<br />
-					<ScoreCard total={getTotalChecked()} />
-				</div>
-			)}
-			<p className="footer">© Alexander 2025</p>
-		</div>
+		<Router>
+			<Routes>
+				<Route path="/" element={<HomePage />} />
+				<Route path="/payment-success" element={<PaymentSuccess />} />
+				{/* Redirect all other routes to homepage */}
+				<Route path="*" element={<Navigate to="/" />} />
+			</Routes>
+		</Router>
 	);
 }
-
-export default App;
