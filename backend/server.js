@@ -1,5 +1,4 @@
 const express = require("express")
-const bodyParser = require("body-parser")
 const cors = require("cors")
 const Airtable = require("airtable")
 const {
@@ -57,7 +56,7 @@ app.use(
 // In-memory Airtable Cache setup
 let adsCache = null
 let lastFetched = 0
-const CACHE_TTL = 1000 * 60 * 30
+const CACHE_TTL = 1000 * 60 * 30 //cache 30 minutes
 
 async function fetchAdsFromAirtable() {
 	const records = await base(tableName)
@@ -70,6 +69,8 @@ async function fetchAdsFromAirtable() {
 
 	return records.map((r) => ({ id: r.id, ...r.fields }))
 }
+
+app.get("/ping", (req, res) => res.send("pong"))
 
 app.get("/ads", async (req, res) => {
 	try {
