@@ -6,7 +6,7 @@ import QuizCard from "../components/quizCard/QuizCard";
 import Header from "../components/HeaderCard";
 import ScoreCard from "../components/ScoreCard";
 import ShowcaseCard from "../components/showcaseCard/ShowcaseCard";
-// uses app.css
+// uses App.css
 
 export default function HomePage() {
     const [tasks, setTasks] = useState(questions);

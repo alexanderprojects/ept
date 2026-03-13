@@ -79,9 +79,13 @@
 	text-align: center;
 }
 .showcase-ad-message {
-	margin-bottom: 5px;
+	margin-bottom: 7px;
+	color: #440747;
+	font-weight: bold;
+	font-size: 18px;
 }
 
+/* NOT USED anymore but used before for clamping to one line - keep all ad card height same when automatic ad card scrolling was on */
 .clamp {
 	padding: 0 50px;
 	line-height: 1.3;

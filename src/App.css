@@ -55,6 +55,8 @@ body {
 	margin: 0 auto;
 	max-width: 1300px;
 	width: 100%;
+	padding-inline: 10px;
+	/* mobile padding */
 }
 
 /* Website title */
@@ -63,7 +65,7 @@ body {
 	margin-bottom: 12px;
 }
 
-/* General card component */
+/* General card component except ad card doesnt use it*/
 .card {
 	background: #ffe4ec;
 	border: 2px solid #ec83a8;
